@@ -1,0 +1,227 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Banana API
+  description: Cubix - Node.js képzés 3\. heti házifeladata
+tags:
+  - name: Monkey
+    description: Végpontok a majmokhoz
+  - name: Banana
+    description: Végpontok a banánokhoz
+paths:
+  /monkeys:
+    get:
+      description: Összes majom lekérdezése
+      tags:
+        - Monkey
+      responses:
+        "200":
+          description: Összes majom listája
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Összes majom listája
+                items:
+                  schema:
+                  $ref: "#/components/schemas/Monkey"
+    post:
+      description: Új majom létrehozása
+      tags:
+        - Monkey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                gender:
+                  type: string
+                  enum: [male, female]
+                species:
+                  type: string
+              required: ["name", "gender", "species"]
+      responses:
+        "201":
+          description: Sikeres
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  banana:
+                    $ref: "#/components/schemas/Monkey"
+  /monkeys/{id}:
+    get:
+      description: Egy majom lekérdezése
+      tags:
+        - Monkey
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Egy majom adatai
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Monkey"
+    patch:
+      description: Egy majom adatainak részleges módosítása, csak azokat mezőket amiket szeretnénk
+      tags:
+        - Monkey
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                gender:
+                  type: string
+                  enum: [male, female]
+                species:
+                  type: string
+      responses:
+        "204":
+          description: Majom adatainak sikeres módosítása
+    delete:
+      description: Egy majom törlése
+      tags:
+        - Monkey
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "204":
+          description: Majom sikeres törlése
+  /bananas:
+    get:
+      description: Összes banán lekérdezése
+      tags:
+        - Banana
+      responses:
+        "200":
+          description: Összes banán listája
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Összes banán listája
+                items:
+                  schema:
+                  $ref: "#/components/schemas/Banana"
+    post:
+      description: Új banán létrehozása
+      tags:
+        - Banana
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                isSweet:
+                  type: boolean
+                owner:
+                  type: string
+                  default: null
+              required: ["color", "owner", "isSweet"]
+      responses:
+        "201":
+          description: Sikeres banán létrehozás
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  banana:
+                    $ref: "#/components/schemas/Banana"
+  /bananas/{id}:
+    get:
+      description: Egy banán lekérdezése
+      tags:
+        - Banana
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Egy banán adatai
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Banana"
+    patch:
+      description: Egy banán adatainak részleges módosítása, csak azokat mezőket amiket szeretnénk
+      tags:
+        - Banana
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                isSweet:
+                  type: boolean
+                owner:
+                  type: string
+                  default: null
+      responses:
+        "204":
+          description: Banán adatainak sikeres módosítása
+    delete:
+      description: Egy banán törlése
+      tags:
+        - Banana
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "204":
+          description: Banán sikeres törlése
+components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Banana:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        color:
+          type: string
+          enum: [yellow, brown]
+        isSweet:
+          type: boolean
+          default: false
+        owner:
+          type: string
+          default: null
+          description: Id of monkey
+    Monkey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        gender:
+          type: string
+          enum: [male, female]
+        species:
+          type: string
