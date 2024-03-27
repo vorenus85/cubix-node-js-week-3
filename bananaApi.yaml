@@ -23,7 +23,6 @@ paths:
                 type: array
                 description: Összes majom listája
                 items:
-                  schema:
                   $ref: "#/components/schemas/Monkey"
     post:
       description: Új majom létrehozása
@@ -51,7 +50,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  banana:
+                  data:
                     $ref: "#/components/schemas/Monkey"
   /monkeys/{id}:
     get:
@@ -112,7 +111,6 @@ paths:
                 type: array
                 description: Összes banán listája
                 items:
-                  schema:
                   $ref: "#/components/schemas/Banana"
     post:
       description: Új banán létrehozása
@@ -140,7 +138,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  banana:
+                  data:
                     $ref: "#/components/schemas/Banana"
   /bananas/{id}:
     get:
